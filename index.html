@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VigilantNG | Campus Security Solutions</title>
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a237e">
+    
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="manifest" href="manifest.json">
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker Registered!'))
+                    .catch(err => console.log('SW Registration Failed:', err));
+            });
+        }
+    </script>
+    
+    
+    <style>
+        .sos-button {
+            width: 200px;
+            height: 200px;
+            background-color: #d32f2f; /* Nigerian Emergency Red */
+            color: white;
+            border-radius: 50%;
+            border: 8px solid #ffcdd2;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            display: block;
+            margin: 50px auto;
+        }
+
+        .sos-button:active {
+            background-color: #b71c1c;
+            transform: scale(0.95);
+        }
+        /* While holding down */
+        .sos-button.active {
+            background-color: orange;
+            transform: scale(0.95);
+        }
+
+        /* After the alert is sent */
+        .sos-button.sent {
+            background-color: green;
+        }  
+    </style>
+    </head>
+<body>
+    <header style="text-align: center; padding: 20px;">
+        <h1 style="color: #1a237e;">VigilantNG</h1>
+        <p>Sure way to Safety</p>
+    </header>
+
+    <main style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh;">
+        <div id="timer" style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;"></div>
+        <div id="statusMsg" style="font-weight: bold; margin-bottom: 20px;">Ready</div>
+        
+        <button id="stop-btn" style="background: #444; color: #fff; border: none; padding: 10px; border-radius: 8px; margin-top: 20px;">
+            STOP & RESET
+        </button>
+
+        <button id="sos-btn" class="sos-button">SOS</button>
+
+        <div class="settings-panel" style="margin-top: 40px; text-align: center; background: #f5f5f5; padding: 15px; border-radius: 10px; border: 1px solid #ddd;">
+            <h3 style="font-size: 1rem; color: #333;">Emergency Contacts</h3>
+            <input type="text" id="contact1" placeholder="Contact 1 (e.g. +234...)" value="+234XXXXXXXXXX" style="display: block; margin: 5px auto; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+            <input type="text" id="contact2" placeholder="Contact 2" style="display: block; margin: 5px auto; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+            <p style="font-size: 0.7rem; color: #666;">Numbers are saved locally for privacy.</p>
+        </div>
+
+        <div id="vgn-settings" style="background: #1a1a1a; padding: 20px; border-radius: 15px; margin-top: 30px; border: 1px solid #333; text-align: left;">
+            <h3 style="color: #d32f2f; margin-bottom: 15px; text-transform: uppercase;">pricise location</h3>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #222;">
+        <label for="stealthToggle" style="color: #eee;">Stealth Mode (Quiet)</label>
+        <input type="checkbox" id="stealthToggle" style="width: 25px; height: 25px; cursor: pointer;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label style="color: #aaa; font-size: 0.8rem; display: block; margin-bottom: 5px;">Hostel Block</label>
+            <input type="text" id="street" placeholder="E.g Female Hostel, etc." style="width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 8px;">
+        </div>
+
+        <div>
+            <label style="color: #aaa; font-size: 0.8rem; display: block; margin-bottom: 5px;">Room Number (Campus)</label>
+            <textarea id="numbers" placeholder="E.g. 608..." style="width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; height: 60px;"></textarea>
+        </div>
+    </div>
+
+    </main>
+
+    <audio id="sirenAudio" src="siren.mp3" preload="auto" loop></audio>
+
+    <script src="app.js"></script>
+    
+   <footer style="margin-top: 50px; padding: 20px; text-align: center; font-size: 0.75rem; color: #777; line-height: 1.4;">
+        <p><strong>VigilantNG Privacy Commitment</strong></p>
+        <p>Your Location data are stored <strong>locally</strong> on this device. VGN does not upload your health records to a central database unless an SOS is triggered.</p>
+        <p>© 2026 VigilantNG Security Suite. All Rights Reserved.</p>
+        <p style="text-decoration: underline; cursor: pointer;" onclick="alert('Data Privacy: LocalStorage encryption active. Location: GPS-only. No 3rd party sharing.')">View Data Protocols</p>
+    </footer>
+
+</body>
+</html>
