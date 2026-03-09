@@ -18,7 +18,7 @@ const showSmsButton = (body) => {
     const c1 = document.getElementById('contact1')?.value || "";
     const c2 = document.getElementById('contact2')?.value || "";
 
-    let buttonsHTML = `<div style="margin-top:15px;">`;
+    //let buttonsHTML = `<div style="margin-top:15px;">`;
 
     if (c1) {
         buttonsHTML += `
