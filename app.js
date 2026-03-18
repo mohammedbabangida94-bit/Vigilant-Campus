@@ -129,20 +129,21 @@ if(contact2Input) {
     const statusMsg = document.getElementById('statusMsg');
     if (sosButton) sosButton.classList.add('sent');
     
-    // 1. PULL DATA IMMEDIATELY (Before GPS starts)
+    // 1. THE REPAIR: Pull the data using the EXACT keys from your listeners
+    // 'vgn_blood' stores the Hostel/Location
+    // 'vgn_allergies' stores the ID/Level
     const hostel = localStorage.getItem('vgn_blood') || "NOT SET";
     const studentId = localStorage.getItem('vgn_allergies') || "Student";
 
-    // 2. SHOW LOADING STATE (Prevents "delay" feeling)
+    // 2. SHOW FEEDBACK (Tells the user it's working)
     statusMsg.innerHTML = `<p style="color: #1565C0; font-weight: bold; text-align: center;">🛰️ Establishing GPS Lock...</p>`;
 
     navigator.geolocation.getCurrentPosition((position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        // Clean GPS URL
-        const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
 
-        // Using Backticks ( ` ) for clean lines without %0A
+        // 3. BUILD THE CLEAN BODY
         const smsBody = `🎓 CAMPUS SECURITY ALERT!
 LOCATION: ${hostel}
 ID/LEVEL: ${studentId}
@@ -152,7 +153,7 @@ Status: Distress signal triggered by student.`;
         showSmsButton(smsBody); 
         window.playSiren();
     }, (err) => {
-        // Fallback if GPS fails
+        // Fallback for No GPS
         const smsBody = `⚠️ CAMPUS EMERGENCY (GPS OFF)
 LOCATION: ${hostel}
 ID/LEVEL: ${studentId}
@@ -160,7 +161,7 @@ Status: Triggered - GPS Unavailable.`;
                     
         showSmsButton(smsBody);
         window.playSiren();
-    }, { enableHighAccuracy: true, timeout: 8000 }); // 8 second timeout
+    }, { enableHighAccuracy: true, timeout: 8000 });
 };
     // Listeners
     sosButton.addEventListener('mousedown', startSOS);
